@@ -1,8 +1,10 @@
 # Reproducible demonstration
 
-1. Open Analyze Star and search `Kepler-10` in mission Kepler, then inspect the returned MAST products and select a public long-cadence product. Network access is required.
-2. Run BLS and inspect original, cleaned, folded, and periodogram views.
-3. Record all displayed period/depth/duration and photometric vetting warnings. These are candidates, not confirmed discoveries.
-4. In Validation Lab inject a 1,000 ppm, 5-day signal into the observed flux and review whether period/depth fall within the stated tolerances.
-5. Repeat with lower depth/noise settings and compare recovery, clearly labeled as a synthetic injected-signal experiment.
-6. For classifier metrics, run `python scripts/benchmark.py` and cite the generated held-out metrics and archive retrieval date.
+1. Open Analyze Star and select the cached real Kepler-10 example. The committed CSV contains public NASA MAST Kepler Q17 long-cadence observations (1,286 archived rows; quality filtering leaves 1,134 valid samples). The attached NASA Exoplanet Archive reference is KOI-72.01, disposition CONFIRMED, catalog period 0.837491 days.
+2. Run BLS. In the tested cached curve, the top BLS period was 0.837819 days (relative error 0.039%), with 172 ppm measured depth, 38 estimated events, and a Planet-like photometric triage. This is a reanalysis of known archival data, not an independent confirmation.
+3. Open Signal Investigation, run TLS, and compare its independent period/duration/depth diagnostics with BLS. TLS on this sample returned 0.838082 days. See the live results and warnings in the interface.
+4. Choose the cached KOI false-positive example to inspect a real Kepler curve for KOI-6139.01, labeled FALSE POSITIVE by the NASA Exoplanet Archive. In this sample BLS recovered 0.905789 days and 3,124 ppm, while the photometric triage returned Planet-like. This is an intentional cautionary example: these available diagnostics do not resolve every catalog false positive.
+5. In Validation Lab inject a 1,000 ppm, 5-day signal into the observed flux. With seed 42 in the recorded run, BLS recovered 4.997798 days (0.044% period error) and depth 988 ppm (1.18% error); measured attenuation was 1.36%. The predeclared match thresholds are at most 2% period error and at most 50% relative depth error. Set added Gaussian noise as a multiple of the observed robust scatter; the experiment grid reports recovery by noise level.
+6. For catalog model metrics, run python scripts/benchmark.py; the current benchmark result and archive retrieval date are recorded in docs/benchmark_results.json and docs/VALIDATION_RESULTS.md.
+
+The cached observations are sourced from MAST product kplr011904151-2013131215648_llc.fits (Kepler-10) and kplr005952403-2009166043257_llc.fits (KOI-6139.01) via Lightkurve. Product metadata and time/flux provenance are in their adjacent JSON files in data/demo. To refresh Kepler-10 data, run python scripts/download_demo_data.py.

@@ -1,0 +1,14 @@
+{
+  "target": "KIC 5952403",
+  "mission": "Kepler",
+  "source": "NASA MAST via Lightkurve",
+  "archive_product_filename": "kplr005952403-2009166043257_llc.fits",
+  "author": "Kepler",
+  "exposure_seconds": 1800.0,
+  "description": "Lightcurve Long Cadence (CLC) - Q1",
+  "license": "Public NASA mission data; cite MAST and Kepler.",
+  "catalogue_id": "K06139.01",
+  "catalogue_disposition": "FALSE POSITIVE in NASA Exoplanet Archive cumulative table retrieved 2026-11-24",
+  "catalogue_period_days": 0.905678,
+  "demo_note": "Real observed Kepler light curve for a KOI labeled false positive in the catalogue. Archive classification is a reference label, not an independent verification."
+}

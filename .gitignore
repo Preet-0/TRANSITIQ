@@ -11,6 +11,12 @@ venv/
 .ruff_cache/
 data/*.csv
 data/*.fits
+data/**/*.fits
+data/**/*.fit
+data/**/*.fits.gz
+data/**/*.csv
+!data/demo/*.csv
+!data/demo/*.json
 outputs/*
 !outputs/.gitkeep
 models/artifacts/*.joblib

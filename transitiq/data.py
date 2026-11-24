@@ -1,8 +1,9 @@
 from __future__ import annotations
-from dataclasses import dataclass, asdict
+from dataclasses import dataclass
 from typing import Any
 import numpy as np
 import pandas as pd
+
 
 @dataclass
 class LightCurve:
@@ -32,19 +33,30 @@ class LightCurve:
         unique = np.r_[True, np.diff(t) > 0]
         t, f, e = t[unique], f[unique], e[unique]
         if len(t) < 30:
-            raise ValueError("Fewer than 30 valid, unique observations remain after quality filtering.")
+            raise ValueError(
+                "Fewer than 30 valid, unique observations remain after quality filtering."
+            )
         self.time, self.flux = t, f
         self.flux_err = e if self.flux_err is not None else None
         self.quality = None
         return self
 
     @classmethod
-    def from_frame(cls, frame: pd.DataFrame, time_col: str, flux_col: str,
-                   error_col: str | None = None, quality_col: str | None = None,
-                   provenance: dict | None = None) -> "LightCurve":
-        return cls(pd.to_numeric(frame[time_col], errors="coerce").to_numpy(),
-                   pd.to_numeric(frame[flux_col], errors="coerce").to_numpy(),
-                   pd.to_numeric(frame[error_col], errors="coerce").to_numpy() if error_col else None,
-                   pd.to_numeric(frame[quality_col], errors="coerce").fillna(1).to_numpy() if quality_col else None,
-                   provenance or {}).validate()
-
+    def from_frame(
+        cls,
+        frame: pd.DataFrame,
+        time_col: str,
+        flux_col: str,
+        error_col: str | None = None,
+        quality_col: str | None = None,
+        provenance: dict | None = None,
+    ) -> "LightCurve":
+        return cls(
+            pd.to_numeric(frame[time_col], errors="coerce").to_numpy(),
+            pd.to_numeric(frame[flux_col], errors="coerce").to_numpy(),
+            pd.to_numeric(frame[error_col], errors="coerce").to_numpy() if error_col else None,
+            pd.to_numeric(frame[quality_col], errors="coerce").fillna(1).to_numpy()
+            if quality_col
+            else None,
+            provenance or {},
+        ).validate()

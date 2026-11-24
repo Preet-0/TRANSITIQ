@@ -1,0 +1,17 @@
+{
+  "target": "Kepler-10",
+  "mission": "Kepler",
+  "source": "NASA MAST via Lightkurve",
+  "archive_product_filename": "kplr011904151-2013131215648_llc.fits",
+  "author": "Kepler",
+  "exposure_seconds": 1800.0,
+  "description": "Lightcurve Long Cadence (CLC) - Q17",
+  "license": "Public NASA mission data; cite MAST and the original Kepler mission.",
+  "time_column": "time (Lightkurve Time.value; BJD offset/time format as encoded by source)",
+  "flux_column": "flux (source product units; unnormalized)",
+  "rows": 1286,
+  "catalogue_id": "KOI-72.01",
+  "catalogue_disposition": "CONFIRMED in NASA Exoplanet Archive cumulative table retrieved 2026-11-24",
+  "catalogue_period_days": 0.837491,
+  "demo_note": "Actual public Kepler Q17 long-cadence observations; catalog disposition is a reference label, not computed from this light curve."
+}

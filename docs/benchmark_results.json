@@ -1,0 +1,66 @@
+{
+  "retrieved_at_utc": "2026-11-24T16:46:34.425447+00:00",
+  "dataset": "NASA Exoplanet Archive cumulative KOI table",
+  "sample_rows": 9564,
+  "positive_class": "CONFIRMED or CANDIDATE",
+  "negative_class": "FALSE POSITIVE",
+  "feature_columns": [
+    "koi_period",
+    "koi_depth",
+    "koi_duration",
+    "koi_model_snr",
+    "koi_impact",
+    "koi_prad",
+    "koi_insol",
+    "koi_steff",
+    "koi_slogg"
+  ],
+  "group_key": "kepid",
+  "test_fraction": 0.25,
+  "random_state": 2026,
+  "class_counts": {
+    "0": 4839,
+    "1": 4725
+  },
+  "test_class_counts": {
+    "0": 1227,
+    "1": 1190
+  },
+  "models": {
+    "logistic_baseline": {
+      "accuracy": 0.6988001654944146,
+      "precision": 0.644375,
+      "recall": 0.8663865546218488,
+      "f1": 0.739068100358423,
+      "pr_auc": 0.7218594500979667,
+      "roc_auc": 0.7742776328135166,
+      "brier_score": 0.19046489671240943,
+      "confusion_matrix_tn_fp_fn_tp": [
+        658,
+        569,
+        159,
+        1031
+      ]
+    },
+    "random_forest": {
+      "accuracy": 0.8353330575093091,
+      "precision": 0.8289036544850499,
+      "recall": 0.838655462184874,
+      "f1": 0.83375104427736,
+      "pr_auc": 0.9110866726019796,
+      "roc_auc": 0.916871100518447,
+      "brier_score": 0.11660466854881149,
+      "confusion_matrix_tn_fp_fn_tp": [
+        1021,
+        206,
+        192,
+        998
+      ]
+    }
+  },
+  "calibrated_random_forest": {
+    "calibration": "sigmoid held-out subset from training stars",
+    "test_brier_score": 0.11739169712488377,
+    "test_pr_auc": 0.9102285922243359
+  }
+}

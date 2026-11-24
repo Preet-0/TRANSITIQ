@@ -1,0 +1,13 @@
+{
+  "target": "Kepler-10",
+  "mission": "Kepler",
+  "source": "NASA MAST via Lightkurve",
+  "archive_product_filename": "kplr011904151-2009131105131_llc.fits",
+  "author": "Kepler",
+  "exposure_seconds": 1800.0,
+  "description": "Lightcurve Long Cadence (CLC) - Q0",
+  "license": "Public NASA mission data; cite MAST and the original Kepler mission.",
+  "time_column": "time (Lightkurve Time.value; BJD offset/time format as encoded by source)",
+  "flux_column": "flux (source product units; unnormalized)",
+  "rows": 473
+}

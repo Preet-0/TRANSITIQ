@@ -14,3 +14,7 @@ Odd/even relative depth mismatch and flux near phase 0.5 are photometric clues o
 
 ## Injection experiment
 A box-shaped transit with user-specified epoch, period, duration and depth is multiplied into a real supplied/archive flux series. Noise can be varied around the measured scatter. The identical detrending and BLS search code is applied. Recovery is defined in advance as period error ≤2% and relative depth error ≤50%. The grid rate estimates recovery for its injected scenarios only and must never be reported as real-star classification accuracy.
+
+
+## Transit Least Squares verification
+The optional verification action runs Transit Least Squares on the same cleaned samples and selected period bounds. TLS uses a limb-darkened transit template and returns an independent period, epoch, duration, depth, SDE and S/N. Depth is converted from the TLS best-fit in-transit normalized flux to a fractional drop. BLS/TLS review warnings are shown when period differs by more than 2% or depth by more than 50%; these tolerances prompt review and do not establish correctness. TLS can be expensive and may return diagnostic warnings on short/noisy data; BLS remains available.
