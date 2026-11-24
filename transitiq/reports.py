@@ -28,8 +28,8 @@ def make_html_report(data):
         if k != "periodogram"
     )
     return (
-        f"<!doctype html><meta charset='utf-8'><title>TRANSITIQ report</title>"
-        f"<h1>TRANSITIQ Candidate Investigation</h1><p>Target: {target}</p>"
+        f"<!doctype html><meta charset='utf-8'><title>Pip candidate report</title>"
+        f"<h1>Pip · Candidate Investigation</h1><p>Target: {target}</p>"
         f"<p>Unconfirmed candidate analysis; not a discovery claim.</p><table>{rows}</table>"
         f"<pre>{html.escape(json.dumps(data.get('vetting', {}), indent=2))}</pre>"
     )
@@ -50,7 +50,7 @@ def make_pdf_report(data):
     output = BytesIO()
     story = []
     styles = getSampleStyleSheet()
-    story.append(Paragraph("TRANSITIQ Candidate Investigation", styles["Title"]))
+    story.append(Paragraph("Pip · Candidate Investigation", styles["Title"]))
     story.append(Paragraph(f"Target: {data.get('target', 'Unknown')}", styles["Heading2"]))
     story.append(
         Paragraph(
@@ -134,7 +134,7 @@ def make_pdf_report(data):
             ),
         ]
     )
-    SimpleDocTemplate(output, pagesize=letter, title="TRANSITIQ Candidate Investigation").build(
+    SimpleDocTemplate(output, pagesize=letter, title="Pip · Candidate Investigation").build(
         story
     )
     return output.getvalue()

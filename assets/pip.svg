@@ -1,0 +1,10 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 128 128" role="img" aria-labelledby="title">
+<title>Pip, the little star detective</title>
+<defs><linearGradient id="body" x1="0" x2="1" y1="0" y2="1"><stop stop-color="#F4F0E8"/><stop offset="1" stop-color="#BFCBD6"/></linearGradient><linearGradient id="lens" x1="0" x2="1" y1="0" y2="1"><stop stop-color="#73CFE0"/><stop offset="1" stop-color="#2D829A"/></linearGradient></defs>
+<path d="M64 8v15" stroke="#F1C96A" stroke-width="5" stroke-linecap="round"/><path d="m64 4 3 6 7 1-5 5 1 7-6-3-6 3 1-7-5-5 7-1z" fill="#F1C96A"/>
+<path d="M29 48c0-17 14-30 31-30h8c17 0 31 13 31 30v36c0 14-11 25-25 25H54c-14 0-25-11-25-25z" fill="url(#body)" stroke="#E9E1D2" stroke-width="3"/>
+<path d="M22 53h13v18H22a9 9 0 0 1 0-18Zm71 0h13a9 9 0 0 1 0 18H93z" fill="#142238" stroke="#73CFE0" stroke-width="3"/>
+<circle cx="65" cy="62" r="23" fill="#08111F" stroke="#F1C96A" stroke-width="4"/><circle cx="65" cy="62" r="16" fill="url(#lens)"/><circle cx="65" cy="62" r="8" fill="#102239"/><circle cx="71" cy="55" r="4" fill="#F4F0E8" opacity=".9"/>
+<path d="M47 96q18 12 36 0" fill="none" stroke="#244052" stroke-width="3" stroke-linecap="round"/>
+<path d="M48 108v9m34-9v9" stroke="#F1C96A" stroke-width="5" stroke-linecap="round"/><path d="M41 119h16m22 0h16" stroke="#73CFE0" stroke-width="5" stroke-linecap="round"/>
+</svg>

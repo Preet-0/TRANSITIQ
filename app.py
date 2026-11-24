@@ -1,5 +1,7 @@
 from __future__ import annotations
 import json
+import base64
+import html
 from pathlib import Path
 import numpy as np
 import pandas as pd
@@ -16,33 +18,57 @@ from transitiq.reports import save_analysis, make_html_report, make_pdf_report
 from transitiq.tls import verify_tls
 
 st.set_page_config(
-    page_title="TRANSITIQ | Signal Analysis",
-    page_icon="✦",
+    page_title="Pip — The Little Star Detective",
+    page_icon="assets/pip.svg",
     layout="wide",
-    initial_sidebar_state="expanded",
+    initial_sidebar_state="auto",
 )
 CSS = """
 <style>
 @import url('https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&family=Manrope:wght@400;500;600;700;800&display=swap');
-:root{--bg:#070b16;--panel:#0d1424;--line:#1d2a40;--text:#e7efff;--muted:#91a3bf;--cyan:#5ce1e6;--violet:#9d8bff}
-.stApp{background:radial-gradient(ellipse at 76% -10%,#15284b 0%,transparent 38%),var(--bg);color:var(--text);font-family:Manrope,sans-serif}
-[data-testid="stSidebar"]{background:#080e1a;border-right:1px solid var(--line)}
-.block-container{padding-top:2rem;max-width:1440px}
-h1,h2,h3{letter-spacing:-.035em} h1{font-weight:800}
-.metric-card{background:linear-gradient(145deg,#101a2c,#0a111e);border:1px solid var(--line);border-radius:14px;padding:18px 20px;min-height:98px}
+:root{--bg:#08111F;--panel:#0D1728;--surface:#142238;--line:#26364c;--text:#F4F0E8;--muted:#b0bdcd;--gold:#F1C96A;--cyan:#73CFE0}
+.stApp{background:radial-gradient(ellipse at 82% -12%,#182b43 0%,transparent 38%),var(--bg);color:var(--text);font-family:Manrope,sans-serif}
+header[data-testid="stHeader"]{background:rgba(8,17,31,.97)!important;background-color:rgba(8,17,31,.97)!important;border-bottom:1px solid rgba(38,54,76,.55)!important}
+header[data-testid="stHeader"] [data-testid="stToolbar"]{background:transparent!important}
+header[data-testid="stHeader"] button{color:var(--text)}header[data-testid="stHeader"] [data-testid="stAppDeployButton"]{display:none!important}
+[data-testid="stRadio"] label:has(input:checked)>div:first-child>div{background:#F1C96A!important;border-color:#F1C96A!important}
+[role="tab"][aria-selected="true"]{color:#F1C96A!important;border-bottom-color:#F1C96A!important}
+a:focus-visible,button:focus-visible,[role="radio"]:focus-visible,[role="tab"]:focus-visible{outline:2px solid #F1C96A!important;outline-offset:3px!important}
+[data-testid="stSidebar"]{background:#0a1422;border-right:1px solid var(--line)}
+[data-testid="stSidebar"] [data-testid="stMarkdownContainer"] p{color:#b0bdcd}
+.block-container{padding:2.2rem clamp(1rem,4vw,3.5rem) 4rem;max-width:1500px}
+h1,h2,h3{letter-spacing:-.035em;color:var(--text)} h1{font-weight:750;font-size:clamp(2rem,4vw,3.25rem)}
+.metric-card{background:linear-gradient(145deg,#142238,#0d1728);border:1px solid var(--line);border-radius:16px;padding:18px 20px;min-height:98px}
 .metric-label{font-size:11px;text-transform:uppercase;letter-spacing:.12em;color:var(--muted)}
-.metric-value{font-size:25px;font-weight:700;margin-top:5px;color:#f4f7ff}
-.eyebrow{font:500 11px 'DM Mono',monospace;color:var(--cyan);letter-spacing:.17em;text-transform:uppercase}
-.small-note{color:var(--muted);font-size:13px}.stButton>button{border-radius:8px;border:1px solid #32516b;background:#122338;color:#d9faff}
-[data-testid="stDataFrame"]{border:1px solid var(--line);border-radius:10px}
+.metric-value{font-size:25px;font-weight:700;margin-top:5px;color:var(--text)}
+.eyebrow{font:500 11px 'DM Mono',monospace;color:var(--gold);letter-spacing:.17em;text-transform:uppercase}
+.small-note{color:var(--muted);font-size:14px;line-height:1.7}.stButton>button{border-radius:10px;border:1px solid #40536b;background:#17283d;color:var(--text);min-height:2.8rem;transition:transform .15s ease,border-color .15s ease}
+.stButton>button:hover{border-color:var(--gold);color:var(--text);transform:translateY(-1px)}
+.stButton>button[kind="primary"]{background:var(--gold);border-color:var(--gold);color:#172132;font-weight:700}
+[data-testid="stDataFrame"]{border:1px solid var(--line);border-radius:12px;overflow:hidden}
+.pip-hero{display:grid;grid-template-columns:1.12fr .88fr;gap:clamp(1rem,4vw,4rem);align-items:center;padding:clamp(1.2rem,4vw,3.5rem) 0 2.6rem}
+.pip-hero-copy{max-width:700px}.pip-hero h1{font-size:clamp(2.6rem,5.6vw,5.15rem);line-height:1.03;letter-spacing:-.065em;margin:.7rem 0 1.1rem}
+.pip-hero p{font-size:clamp(1rem,1.5vw,1.2rem);line-height:1.75;color:#c1ccda;max-width:650px}
+.pip-art{width:100%;max-width:560px;justify-self:end;display:block}
+.pip-panel{border:1px solid var(--line);border-radius:18px;background:linear-gradient(150deg,rgba(20,34,56,.93),rgba(13,23,40,.96));padding:clamp(1rem,3vw,2rem);height:100%}
+.pip-step{color:var(--gold);font:500 12px 'DM Mono',monospace;letter-spacing:.12em}.pip-panel h3{font-size:1.1rem;margin:.7rem 0}.pip-panel p{font-size:.94rem;line-height:1.65;color:#b0bdcd}
+.pip-rule{height:1px;background:var(--line);margin:2rem 0}.pip-footnote{font-size:.82rem;color:#aebdce;line-height:1.6}
+@media(max-width:800px){.pip-hero{grid-template-columns:1fr;padding-top:1.2rem}.pip-art{max-width:430px;justify-self:center;grid-row:1}.pip-hero-copy{grid-row:2}.block-container{padding-top:2.6rem}.pip-panel{margin-bottom:.4rem}}
+@media(max-width:480px){.pip-hero h1{font-size:2.6rem}.pip-art{max-width:320px}.block-container{padding-left:1rem;padding-right:1rem}.metric-card{padding:14px;min-height:82px}.metric-value{font-size:21px}}
+@media(max-width:640px){[data-testid="stHorizontalBlock"]{flex-wrap:wrap;gap:.6rem}[data-testid="stHorizontalBlock"]>[data-testid="column"]{flex:1 1 calc(50% - .6rem)!important;min-width:calc(50% - .6rem)!important}.candidate-mobile{display:block!important}.candidate-desktop{display:none!important}}
+@media(max-width:380px){[data-testid="stHorizontalBlock"]>[data-testid="column"]{flex-basis:100%!important;min-width:100%!important}}
+@media(prefers-reduced-motion:reduce){*,*::before,*::after{scroll-behavior:auto!important;animation-duration:.01ms!important;animation-iteration-count:1!important;transition-duration:.01ms!important}}
 </style>"""
 st.markdown(CSS, unsafe_allow_html=True)
+PIP_HERO = base64.b64encode(Path("assets/pip-hero.svg").read_bytes()).decode("ascii")
 PAGES = [
-    "Mission Control",
+    "Discover",
+    "Overview",
     "Analyze Star",
     "Candidate Explorer",
     "Signal Investigation",
-    "Validation Lab",
+    "Planet Recovery Lab",
+    "Model Performance",
     "Research & Methods",
 ]
 
@@ -52,8 +78,9 @@ def select_page(name):
 
 
 with st.sidebar:
-    st.markdown('<div class="eyebrow">✦ TRANSITIQ</div>', unsafe_allow_html=True)
-    st.caption("Intelligent Exoplanet Discovery")
+    st.image("assets/pip.svg", width=72)
+    st.markdown('<div class="eyebrow">PIP · THE LITTLE STAR DETECTIVE</div>', unsafe_allow_html=True)
+    st.caption("Tiny dips. Hidden worlds.")
     page = st.radio("NAVIGATION", PAGES, label_visibility="collapsed", key="page_select")
     st.divider()
     st.caption("DATA SOURCES")
@@ -87,13 +114,13 @@ def chart(x, y, title, xlabel, ylabel, color="#5ce1e6", name="observations"):
         )
     )
     fig.update_layout(
-        title=title,
+        title={"text": title, "font": {"color": "#F4F0E8", "size": 16}},
         xaxis_title=xlabel,
         yaxis_title=ylabel,
         height=390,
         paper_bgcolor="rgba(0,0,0,0)",
         plot_bgcolor="rgba(8,14,26,.55)",
-        font={"color": "#c7d5eb", "family": "Manrope"},
+        font={"color": "#D2DCE7", "family": "Manrope"},
         margin={"l": 20, "r": 15, "t": 55, "b": 35},
         xaxis={"gridcolor": "#1d2a40"},
         yaxis={"gridcolor": "#1d2a40"},
@@ -122,18 +149,88 @@ def analyze(c, limits, window=1.5):
     }
 
 
-if page == "Mission Control":
-    header(
-        "RESEARCH OPERATIONS / 01",
-        "Mission Control",
-        "A transparent workspace for turning faint stellar dimmings into testable candidate evidence.",
-    )
+if page == "Discover":
+        st.markdown(f'''
+        <section class="pip-hero">
+          <div class="pip-hero-copy">
+            <div class="eyebrow">MEET YOUR NEW COSMIC DETECTIVE</div>
+            <h1>A tiny dip in starlight could reveal a whole new world.</h1>
+            <p>Meet Pip, your little star detective. Pip explores real observations from distant stars, spots repeating dips in their light and helps uncover possible hidden planets.</p>
+            <p><strong>Tiny dips. Hidden worlds.</strong></p>
+          </div>
+          <img class="pip-art" src="data:image/svg+xml;base64,{PIP_HERO}" alt="Pip observes a planet crossing a distant star; a light curve shows the small dip in brightness." />
+        </section>
+        ''', unsafe_allow_html=True)
+        cta, meet = st.columns([1, 1])
+        with cta:
+            st.button("Explore the stars →", type="primary", use_container_width=True, on_click=select_page, args=("Analyze Star",))
+        with meet:
+            st.button("Meet Pip", use_container_width=True, on_click=select_page, args=("Research & Methods",))
+        st.markdown('<div class="pip-rule"></div><div class="eyebrow">A SMALL SIGNAL, A BIG QUESTION</div><h2>Stars don’t need to disappear to reveal a secret.</h2><p class="small-note">Sometimes, they only need to become a little dimmer. When a planet passes in front of its star, telescopes can record a tiny, repeating change in brightness.</p>', unsafe_allow_html=True)
+        st.markdown("### How the investigation works")
+        steps = st.columns(3)
+        for col, (number, title, copy) in zip(steps, [
+            ("01 — WATCH THE STARS", "A record of starlight", "Telescope observations record how bright distant stars appear over time."),
+            ("02 — SPOT THE TINY DIPS", "Look for a pattern", "A planet crossing its star makes the light slightly dimmer. Repeating dips can reveal an orbit."),
+            ("03 — CHECK THE CLUES", "Test the signal", "Pip examines each signal and checks for clues that could point to a false alarm.")]):
+            with col:
+                st.markdown(f'<div class="pip-panel"><div class="pip-step">{number}</div><h3>{title}</h3><p>{copy}</p></div>', unsafe_allow_html=True)
+        st.markdown('<div class="pip-rule"></div>', unsafe_allow_html=True)
+        st.markdown("### A real observation, ready to explore")
+        st.markdown('<p class="small-note">Start with real NASA Kepler Q17 observations of Kepler-10. The built-in example is actual telescope data; Pip’s photometric analysis is an investigation, not independent confirmation.</p>', unsafe_allow_html=True)
+        preview = Path("data/demo/kepler10_q17_longcadence.csv")
+        if preview.exists():
+            demo = pd.read_csv(preview)
+            st.plotly_chart(chart(demo["time"], demo["flux"], "Kepler-10 · Kepler Q17 · raw light curve", "Time (days)", "Normalized flux", color="#F1C96A"), use_container_width=True)
+        st.caption("Real NASA Kepler data · KOI-72.01 has an archive confirmed disposition. A fresh run here remains a photometric reanalysis and is not an external confirmation.")
+        if st.button("Run the real Kepler-10 example", type="secondary"):
+            try:
+                with st.spinner("Cleaning the archived observations and searching for repeating dips…"):
+                    meta = json.loads(Path("data/demo/kepler10_q17_longcadence.json").read_text(encoding="utf-8"))
+                    frame = pd.read_csv(preview)
+                    demo_curve = LightCurve.from_frame(frame, "time", "flux", "flux_err", "quality", meta)
+                    demo_analysis = analyze(demo_curve, (0.5, 15.0), 1.5)
+                    demo_analysis["search_limits"] = {"min_period": 0.5, "max_period": 15.0}
+                    st.session_state.curve = demo_curve
+                    st.session_state.analysis = demo_analysis
+                    st.session_state.kepler_demo_analysis = demo_analysis
+            except Exception as exc:
+                st.error(f"The Kepler-10 example could not be analyzed: {exc}")
+        demo_result = st.session_state.get("kepler_demo_analysis")
+        if demo_result:
+            detection = demo_result["detection"]
+            st.success("Analysis completed on real Kepler Q17 observations. This is a photometric reanalysis, not independent confirmation.")
+            result_cols = st.columns(4)
+            for column, (label, value) in zip(result_cols, [
+                ("BLS period", f"{detection['period_days']:.6f} days"),
+                ("Transit depth", f"{detection['depth_ppm']:.1f} ppm"),
+                ("Duration", f"{detection['duration_hours']:.2f} hours"),
+                ("Photometric triage", demo_result["vetting"]["label"]),
+            ]):
+                with column:
+                    metric(label, value)
+            raw_tab, clean_tab, fold_tab = st.tabs(["Raw light curve", "Cleaned light curve", "Folded transit"])
+            with raw_tab:
+                st.plotly_chart(chart(demo_result["time"], demo_result["raw_flux"], "Kepler-10 raw observations", "Time (days)", "Normalized flux", color="#F1C96A"), use_container_width=True)
+            with clean_tab:
+                st.plotly_chart(chart(demo_result["time"], demo_result["cleaned_flux"], "Transit-aware cleaned observations", "Time (days)", "Relative flux", color="#73CFE0"), use_container_width=True)
+            with fold_tab:
+                phase = ((np.asarray(demo_result["time"]) - detection["epoch_days"] + detection["period_days"] / 2) % detection["period_days"]) / detection["period_days"]
+                order = np.argsort(phase)
+                st.plotly_chart(chart((phase[order] - .5) * detection["period_days"] * 24, np.asarray(demo_result["cleaned_flux"])[order], "Kepler-10 transit folded at the measured BLS period", "Hours from transit center", "Relative flux", color="#F1C96A"), use_container_width=True)
+            st.caption(f"Source: {meta['source']} · {meta['description']} · {demo_result['n_clean']:,} quality-filtered measurements. Catalog disposition is reference context only; measured BLS period is {detection['period_days']:.6f} days.")
+            st.button("Open signal investigation →", on_click=select_page, args=("Signal Investigation",))
+        st.markdown('<div class="pip-rule"></div><div class="pip-panel"><div class="eyebrow">FOLLOW THE EVIDENCE</div><h2>Promising clues are candidates, not confirmed discoveries.</h2><p>Every result keeps its measurements, data source and limitations visible. A repeating dip can be a planet candidate, an eclipsing binary or an instrumental effect. Follow-up observations are needed for confirmation.</p></div>', unsafe_allow_html=True)
+        st.button("Start an investigation →", type="primary", on_click=select_page, args=("Analyze Star",))
+        st.markdown('<footer class="pip-footnote" style="border-top:1px solid #26364c;margin-top:3rem;padding-top:1.2rem">PIP · THE LITTLE STAR DETECTIVE &nbsp; · &nbsp; Tiny dips. Hidden worlds. &nbsp; · &nbsp; Real observations, transparent methods, candidates that still need follow-up.</footer>', unsafe_allow_html=True)
+elif page == "Overview":
+    header("YOUR WORKSPACE / 01", "Overview", "A clear view of this session’s investigation and the next useful step.")
     a = st.session_state.analysis
     cols = st.columns(4)
     values = [
         ("OBSERVATIONS PROCESSED", f"{a['n_clean']:,}" if a else "—"),
-        ("CANDIDATES IN SESSION", "1" if a else "0"),
-        ("PLANET-LIKE FLAGS", str(a["vetting"]["label"] == "Planet-like") if a else "—"),
+        ("SIGNALS IN SESSION", "1" if a else "0"),
+        ("PLANET-LIKE FLAG", ("Yes" if a["vetting"]["label"] == "Planet-like" else "No") if a else "—"),
         ("PIPELINE STATE", "READY" if a else "IDLE"),
     ]
     for col, (lab, val) in zip(cols, values):
@@ -156,10 +253,10 @@ if page == "Mission Control":
             "**Measure signal recoverability**\n\nInject known transits into the observed noise and measure what your pipeline recovers."
         )
         st.button(
-            "Open Validation Lab →",
+            "Open Planet Recovery Lab →",
             use_container_width=True,
             on_click=select_page,
-            args=("Validation Lab",),
+            args=("Planet Recovery Lab",),
         )
     if a:
         st.markdown("### Latest analysis")
@@ -424,7 +521,11 @@ elif page in ("Candidate Explorer", "Signal Investigation"):
     )
     a = st.session_state.analysis
     if not a:
-        st.info("Run an analysis first on the Analyze Star page.")
+        empty_left, empty_copy = st.columns([1, 3])
+        with empty_left:
+            st.image("assets/pip.svg", width=90)
+        with empty_copy:
+            st.info("Pip is ready to investigate. Run an analysis on Analyze Star to see real candidate evidence here.")
     else:
         d, v = a["detection"], a["vetting"]
         row = {
@@ -448,7 +549,17 @@ elif page in ("Candidate Explorer", "Signal Investigation"):
                 1,
             ),
         }
+        st.markdown("<style>@media(max-width:640px){[data-testid=\"stDataFrame\"]{display:none}}</style>", unsafe_allow_html=True)
         st.dataframe(pd.DataFrame([row]), use_container_width=True, hide_index=True)
+        st.markdown(
+            f'''<article class="pip-panel candidate-mobile" style="display:none">
+            <div class="eyebrow">{html.escape(row['Candidate'])} · {html.escape(str(row['Target']))}</div>
+            <h3>{html.escape(str(row['Photometric triage']))} candidate signal</h3>
+            <p><strong>{row['Period (d)']:.6g} days</strong> orbital period · {row['Depth (ppm)']:.1f} ppm depth</p>
+            <p>{row['Duration (h)']:.2f} hours duration · {row['Events']} estimated events</p>
+            <p class="pip-footnote">Photometric triage is a clue for review, not a planet confirmation.</p></article>''',
+            unsafe_allow_html=True,
+        )
         c = st.columns(4)
         for col, (lab, val) in zip(
             c,
@@ -574,13 +685,13 @@ elif page in ("Candidate Explorer", "Signal Investigation"):
             st.download_button(
                 "Download investigation report (HTML)",
                 make_html_report(a),
-                file_name="transitiq_investigation.html",
+                file_name="pip_investigation.html",
                 mime="text/html",
             )
             st.download_button(
                 "Download full measurements (JSON)",
                 json.dumps(a, indent=2),
-                file_name="transitiq_analysis.json",
+                file_name="pip_analysis.json",
                 mime="application/json",
             )
             if st.button("Prepare plotted PDF report"):
@@ -590,16 +701,16 @@ elif page in ("Candidate Explorer", "Signal Investigation"):
                 st.download_button(
                     "Download investigation report (PDF)",
                     st.session_state.pdf_report,
-                    file_name="transitiq_investigation.pdf",
+                    file_name="pip_investigation.pdf",
                     mime="application/pdf",
                 )
         else:
             st.write("Candidate details are available under Signal Investigation.")
 
-elif page == "Validation Lab":
+elif page == "Planet Recovery Lab":
     header(
         "EXPERIMENTS / 04",
-        "Validation Lab",
+        "Planet Recovery Lab",
         "Measure detection recovery on your observed noise. Injection metrics are synthetic signal experiments, not catalogue benchmark accuracy.",
     )
     c = st.session_state.curve
@@ -790,12 +901,54 @@ elif page == "Validation Lab":
             "Run `python scripts/benchmark.py` to fetch and evaluate the latest NASA Exoplanet Archive KOI table."
         )
 
+elif page == "Model Performance":
+    header("MODEL EVALUATION / 06", "Model Performance", "Measured benchmark results with their scope and limitations in view.")
+    benchmark_path = Path("docs/benchmark_results.json")
+    if benchmark_path.exists():
+        benchmark = json.loads(benchmark_path.read_text(encoding="utf-8"))
+        m = benchmark["models"]["random_forest"]
+        st.caption(f"NASA Exoplanet Archive catalogue benchmark · retrieved {benchmark['retrieved_at_utc']} · {benchmark['sample_rows']:,} labeled KOIs · target-star grouped held-out evaluation.")
+        cols = st.columns(4)
+        for col, (label, value) in zip(cols, [("Accuracy",m["accuracy"]),("Precision",m["precision"]),("Recall",m["recall"]),("F1",m["f1"])]):
+            with col:
+                metric(label, f"{value:.3f}")
+        cols = st.columns(3)
+        for col, (label, value) in zip(cols, [("PR-AUC",m["pr_auc"]),("ROC-AUC",m["roc_auc"]),("Brier score",m["brier_score"])]):
+            with col:
+                metric(label, f"{value:.3f}")
+        baseline = benchmark["models"]["logistic_baseline"]
+        tn, fp, fn, tp = m["confusion_matrix_tn_fp_fn_tp"]
+        fig = go.Figure(go.Heatmap(z=[[tn,fp],[fn,tp]],x=["Predicted false positive","Predicted candidate"],y=["Actual false positive","Actual candidate"],text=[[tn,fp],[fn,tp]],texttemplate="%{text}",colorscale=[[0,"#142238"],[1,"#73CFE0"]],showscale=False))
+        fig.update_layout(title="Held-out Random Forest confusion matrix",height=360,paper_bgcolor="rgba(0,0,0,0)",plot_bgcolor="rgba(0,0,0,0)",font={"color":"#F4F0E8"},margin={"l":15,"r":15,"t":55,"b":35})
+        st.plotly_chart(fig,use_container_width=True)
+        st.write(f"Logistic baseline: accuracy {baseline['accuracy']:.3f}, F1 {baseline['f1']:.3f}, PR-AUC {baseline['pr_auc']:.3f}, ROC-AUC {baseline['roc_auc']:.3f}.")
+        st.warning("These scores evaluate catalog disposition labels, not live light-curve predictions. Catalog features are selection-biased, and no AI probability is produced for an arbitrary target.")
+    else:
+        st.info("No saved catalogue benchmark is available in this deployment. The page does not invent model scores.")
+
 else:
     header(
         "DOCUMENTATION / 05",
         "Research & Methods",
         "The evidence chain, data provenance and limitations are part of the result.",
     )
+    with st.expander("Simple guide · How do tiny dips reveal planets?", expanded=True):
+        st.markdown("""
+**Light curve:** a record of how bright one star appears over time.
+
+**Transit:** a planet passing between us and its star. The star appears slightly dimmer while the planet crosses it.
+
+**Orbital period:** the time between repeating transits. A repeating pattern is a useful clue, but it can also come from a false alarm.
+
+**Transit depth:** how much the measured starlight dips. It depends on the relative sizes of the planet and star, as well as the data quality.
+
+**Phase folding:** lining up observations by the proposed period so repeated events can be compared together.
+
+**False positive:** a signal that looks transit-like but has another cause, such as an eclipsing binary or an instrumental effect.
+
+Pip reports **potential candidates**, never automatic confirmations. Follow-up observations are needed to confirm a planet.
+""")
+    st.markdown("#### Research mode")
     st.markdown("""
 ### Pipeline
 1. **Acquire** public Kepler/TESS light-curve products through Lightkurve's MAST interface, or validate uploaded CSV/FITS time series. Raw samples are retained.

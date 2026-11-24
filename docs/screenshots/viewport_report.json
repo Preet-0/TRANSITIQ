@@ -1,0 +1,551 @@
+{
+  "widths_tested": [
+    320,
+    360,
+    390,
+    430,
+    768,
+    1024,
+    1280,
+    1440
+  ],
+  "checks": [
+    {
+      "viewport": 320,
+      "document": 320,
+      "body": 320,
+      "hero": 288,
+      "art": true,
+      "width": 320,
+      "page": "Discover",
+      "overflow": false
+    },
+    {
+      "viewport": 360,
+      "document": 360,
+      "body": 360,
+      "hero": 328,
+      "art": true,
+      "width": 360,
+      "page": "Discover",
+      "overflow": false
+    },
+    {
+      "viewport": 390,
+      "document": 390,
+      "body": 390,
+      "hero": 358,
+      "art": true,
+      "width": 390,
+      "page": "Discover",
+      "overflow": false
+    },
+    {
+      "viewport": 430,
+      "document": 430,
+      "body": 430,
+      "hero": 398,
+      "art": true,
+      "width": 430,
+      "page": "Discover",
+      "overflow": false
+    },
+    {
+      "viewport": 768,
+      "document": 768,
+      "body": 768,
+      "hero": 707,
+      "art": true,
+      "width": 768,
+      "page": "Discover",
+      "overflow": false
+    },
+    {
+      "viewport": 1024,
+      "document": 1024,
+      "body": 1024,
+      "hero": 941,
+      "art": true,
+      "width": 1024,
+      "page": "Discover",
+      "overflow": false
+    },
+    {
+      "viewport": 1280,
+      "document": 1280,
+      "body": 1280,
+      "hero": 1177,
+      "art": true,
+      "width": 1280,
+      "page": "Discover",
+      "overflow": false
+    },
+    {
+      "viewport": 1440,
+      "document": 1440,
+      "body": 1440,
+      "hero": 1327,
+      "art": true,
+      "width": 1440,
+      "page": "Discover",
+      "overflow": false
+    },
+    {
+      "viewport": 320,
+      "document": 320,
+      "body": 320,
+      "width": 320,
+      "page": "Kepler-10 showcase",
+      "overflow": false
+    },
+    {
+      "viewport": 360,
+      "document": 360,
+      "body": 360,
+      "width": 360,
+      "page": "Kepler-10 showcase",
+      "overflow": false
+    },
+    {
+      "viewport": 390,
+      "document": 390,
+      "body": 390,
+      "width": 390,
+      "page": "Kepler-10 showcase",
+      "overflow": false
+    },
+    {
+      "viewport": 430,
+      "document": 430,
+      "body": 430,
+      "width": 430,
+      "page": "Kepler-10 showcase",
+      "overflow": false
+    },
+    {
+      "viewport": 768,
+      "document": 768,
+      "body": 768,
+      "width": 768,
+      "page": "Kepler-10 showcase",
+      "overflow": false
+    },
+    {
+      "viewport": 1024,
+      "document": 1024,
+      "body": 1024,
+      "width": 1024,
+      "page": "Kepler-10 showcase",
+      "overflow": false
+    },
+    {
+      "viewport": 1280,
+      "document": 1280,
+      "body": 1280,
+      "width": 1280,
+      "page": "Kepler-10 showcase",
+      "overflow": false
+    },
+    {
+      "viewport": 1440,
+      "document": 1440,
+      "body": 1440,
+      "width": 1440,
+      "page": "Kepler-10 showcase",
+      "overflow": false
+    },
+    {
+      "viewport": 320,
+      "document": 320,
+      "body": 320,
+      "width": 320,
+      "page": "Analyze Star",
+      "overflow": false
+    },
+    {
+      "viewport": 360,
+      "document": 360,
+      "body": 360,
+      "width": 360,
+      "page": "Analyze Star",
+      "overflow": false
+    },
+    {
+      "viewport": 390,
+      "document": 390,
+      "body": 390,
+      "width": 390,
+      "page": "Analyze Star",
+      "overflow": false
+    },
+    {
+      "viewport": 430,
+      "document": 430,
+      "body": 430,
+      "width": 430,
+      "page": "Analyze Star",
+      "overflow": false
+    },
+    {
+      "viewport": 768,
+      "document": 768,
+      "body": 768,
+      "width": 768,
+      "page": "Analyze Star",
+      "overflow": false
+    },
+    {
+      "viewport": 1024,
+      "document": 1024,
+      "body": 1024,
+      "width": 1024,
+      "page": "Analyze Star",
+      "overflow": false
+    },
+    {
+      "viewport": 1280,
+      "document": 1280,
+      "body": 1280,
+      "width": 1280,
+      "page": "Analyze Star",
+      "overflow": false
+    },
+    {
+      "viewport": 1440,
+      "document": 1440,
+      "body": 1440,
+      "width": 1440,
+      "page": "Analyze Star",
+      "overflow": false
+    },
+    {
+      "viewport": 320,
+      "document": 320,
+      "body": 320,
+      "width": 320,
+      "page": "Signal Investigation",
+      "overflow": false
+    },
+    {
+      "viewport": 360,
+      "document": 360,
+      "body": 360,
+      "width": 360,
+      "page": "Signal Investigation",
+      "overflow": false
+    },
+    {
+      "viewport": 390,
+      "document": 390,
+      "body": 390,
+      "width": 390,
+      "page": "Signal Investigation",
+      "overflow": false
+    },
+    {
+      "viewport": 430,
+      "document": 430,
+      "body": 430,
+      "width": 430,
+      "page": "Signal Investigation",
+      "overflow": false
+    },
+    {
+      "viewport": 768,
+      "document": 768,
+      "body": 768,
+      "width": 768,
+      "page": "Signal Investigation",
+      "overflow": false
+    },
+    {
+      "viewport": 1024,
+      "document": 1024,
+      "body": 1024,
+      "width": 1024,
+      "page": "Signal Investigation",
+      "overflow": false
+    },
+    {
+      "viewport": 1280,
+      "document": 1280,
+      "body": 1280,
+      "width": 1280,
+      "page": "Signal Investigation",
+      "overflow": false
+    },
+    {
+      "viewport": 1440,
+      "document": 1440,
+      "body": 1440,
+      "width": 1440,
+      "page": "Signal Investigation",
+      "overflow": false
+    },
+    {
+      "viewport": 390,
+      "document": 390,
+      "body": 390,
+      "width": 390,
+      "page": "Signal Investigation",
+      "overflow": false
+    },
+    {
+      "viewport": 320,
+      "document": 320,
+      "body": 320,
+      "width": 320,
+      "page": "Candidate Explorer",
+      "overflow": false
+    },
+    {
+      "viewport": 360,
+      "document": 360,
+      "body": 360,
+      "width": 360,
+      "page": "Candidate Explorer",
+      "overflow": false
+    },
+    {
+      "viewport": 390,
+      "document": 390,
+      "body": 390,
+      "width": 390,
+      "page": "Candidate Explorer",
+      "overflow": false
+    },
+    {
+      "viewport": 430,
+      "document": 430,
+      "body": 430,
+      "width": 430,
+      "page": "Candidate Explorer",
+      "overflow": false
+    },
+    {
+      "viewport": 768,
+      "document": 768,
+      "body": 768,
+      "width": 768,
+      "page": "Candidate Explorer",
+      "overflow": false
+    },
+    {
+      "viewport": 1024,
+      "document": 1024,
+      "body": 1024,
+      "width": 1024,
+      "page": "Candidate Explorer",
+      "overflow": false
+    },
+    {
+      "viewport": 1280,
+      "document": 1280,
+      "body": 1280,
+      "width": 1280,
+      "page": "Candidate Explorer",
+      "overflow": false
+    },
+    {
+      "viewport": 1440,
+      "document": 1440,
+      "body": 1440,
+      "width": 1440,
+      "page": "Candidate Explorer",
+      "overflow": false
+    },
+    {
+      "viewport": 320,
+      "document": 320,
+      "body": 320,
+      "width": 320,
+      "page": "Planet Recovery Lab",
+      "overflow": false
+    },
+    {
+      "viewport": 360,
+      "document": 360,
+      "body": 360,
+      "width": 360,
+      "page": "Planet Recovery Lab",
+      "overflow": false
+    },
+    {
+      "viewport": 390,
+      "document": 390,
+      "body": 390,
+      "width": 390,
+      "page": "Planet Recovery Lab",
+      "overflow": false
+    },
+    {
+      "viewport": 430,
+      "document": 430,
+      "body": 430,
+      "width": 430,
+      "page": "Planet Recovery Lab",
+      "overflow": false
+    },
+    {
+      "viewport": 768,
+      "document": 768,
+      "body": 768,
+      "width": 768,
+      "page": "Planet Recovery Lab",
+      "overflow": false
+    },
+    {
+      "viewport": 1024,
+      "document": 1024,
+      "body": 1024,
+      "width": 1024,
+      "page": "Planet Recovery Lab",
+      "overflow": false
+    },
+    {
+      "viewport": 1280,
+      "document": 1280,
+      "body": 1280,
+      "width": 1280,
+      "page": "Planet Recovery Lab",
+      "overflow": false
+    },
+    {
+      "viewport": 1440,
+      "document": 1440,
+      "body": 1440,
+      "width": 1440,
+      "page": "Planet Recovery Lab",
+      "overflow": false
+    },
+    {
+      "viewport": 320,
+      "document": 320,
+      "body": 320,
+      "width": 320,
+      "page": "Model Performance",
+      "overflow": false
+    },
+    {
+      "viewport": 360,
+      "document": 360,
+      "body": 360,
+      "width": 360,
+      "page": "Model Performance",
+      "overflow": false
+    },
+    {
+      "viewport": 390,
+      "document": 390,
+      "body": 390,
+      "width": 390,
+      "page": "Model Performance",
+      "overflow": false
+    },
+    {
+      "viewport": 430,
+      "document": 430,
+      "body": 430,
+      "width": 430,
+      "page": "Model Performance",
+      "overflow": false
+    },
+    {
+      "viewport": 768,
+      "document": 768,
+      "body": 768,
+      "width": 768,
+      "page": "Model Performance",
+      "overflow": false
+    },
+    {
+      "viewport": 1024,
+      "document": 1024,
+      "body": 1024,
+      "width": 1024,
+      "page": "Model Performance",
+      "overflow": false
+    },
+    {
+      "viewport": 1280,
+      "document": 1280,
+      "body": 1280,
+      "width": 1280,
+      "page": "Model Performance",
+      "overflow": false
+    },
+    {
+      "viewport": 1440,
+      "document": 1440,
+      "body": 1440,
+      "width": 1440,
+      "page": "Model Performance",
+      "overflow": false
+    },
+    {
+      "viewport": 320,
+      "document": 320,
+      "body": 320,
+      "width": 320,
+      "page": "Research & Methods",
+      "overflow": false
+    },
+    {
+      "viewport": 360,
+      "document": 360,
+      "body": 360,
+      "width": 360,
+      "page": "Research & Methods",
+      "overflow": false
+    },
+    {
+      "viewport": 390,
+      "document": 390,
+      "body": 390,
+      "width": 390,
+      "page": "Research & Methods",
+      "overflow": false
+    },
+    {
+      "viewport": 430,
+      "document": 430,
+      "body": 430,
+      "width": 430,
+      "page": "Research & Methods",
+      "overflow": false
+    },
+    {
+      "viewport": 768,
+      "document": 768,
+      "body": 768,
+      "width": 768,
+      "page": "Research & Methods",
+      "overflow": false
+    },
+    {
+      "viewport": 1024,
+      "document": 1024,
+      "body": 1024,
+      "width": 1024,
+      "page": "Research & Methods",
+      "overflow": false
+    },
+    {
+      "viewport": 1280,
+      "document": 1280,
+      "body": 1280,
+      "width": 1280,
+      "page": "Research & Methods",
+      "overflow": false
+    },
+    {
+      "viewport": 1440,
+      "document": 1440,
+      "body": 1440,
+      "width": 1440,
+      "page": "Research & Methods",
+      "overflow": false
+    }
+  ],
+  "browser_errors": []
+}

@@ -1,6 +1,6 @@
 services:
   - type: web
-    name: transitiq
+    name: pip-star-detective
     runtime: python
     plan: free
     branch: main
