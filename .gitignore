@@ -1,5 +1,6 @@
 __pycache__/
 *.py[cod]
+*.egg-info/
 .venv/
 venv/
 .env
@@ -15,4 +16,3 @@ outputs/*
 models/artifacts/*.joblib
 *.log
 .DS_Store
-
