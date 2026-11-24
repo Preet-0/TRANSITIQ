@@ -87,6 +87,20 @@ with st.sidebar:
     st.markdown("NASA Exoplanet Archive · MAST · Kepler · TESS")
     st.caption("No external AI API required")
 
+# The Discover hero carries its own generous top spacing. Other pages begin
+# with a compact eyebrow heading, so keep those headings clear of Streamlit's
+# fixed toolbar at the top of the app.
+if page != "Discover":
+    st.markdown(
+        """<style>
+        .block-container { padding-top: 3.75rem !important; }
+        @media (max-width: 800px) {
+            .block-container { padding-top: 3.75rem !important; }
+        }
+        </style>""",
+        unsafe_allow_html=True,
+    )
+
 if "analysis" not in st.session_state:
     st.session_state.analysis = None
 if "curve" not in st.session_state:
